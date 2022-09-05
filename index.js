@@ -31,7 +31,9 @@ app.use('/api/auth', AUTH);
 app.use('/api/events', EVENTS);
 //TODO: CRUD: eventos
 
-
+app.use('*', (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+})
 
 
 
