@@ -14,6 +14,10 @@ const AlumnoSchema = new Schema({
         required: true,
         trim: true
     },
+    // fecha_ingreso: {
+    //     type: Date,
+    //     required: true,
+    // },
     dni:{
         type: String,
         required: true,

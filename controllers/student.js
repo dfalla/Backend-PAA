@@ -46,14 +46,13 @@ const crearAlumno = async (req, res = response) => {
 
         const nuevoAlumno = new Alumno({nombre, apellido, dni});
 
-        
         await nuevoAlumno.save();
 
         return res.status(201).json({msg:"Alumno registrado correctamente", nuevoAlumno});
         
     } catch (error) {
         if(error.code === 11000) return res.status(400).json({
-            error : "Ya está registrado el alumno"
+            error : "Ya existe un alumno registrado con ese número de DNI"
         });
         return res.status(500).json({
             error: 'Error de servidor'
@@ -68,10 +67,7 @@ const actualizarAlumno = async(req, res = response) => {
         const {nombre, apellido, dni} = req.body;
 
         const alumno = await Alumno.findById(id);
-        let newAlumno = await Alumno.findOne({dni});
         
-
-        if(newAlumno) throw {code: 11000};
 
         if(!alumno){
             return res.status(404).json({
@@ -82,6 +78,7 @@ const actualizarAlumno = async(req, res = response) => {
         alumno.nombre = nombre;
         alumno.apellido = apellido;
         alumno.dni = dni;
+        
 
         await alumno.save();
         return res.json({
@@ -93,9 +90,7 @@ const actualizarAlumno = async(req, res = response) => {
         if(error.kind === 'ObjectId') return res.status(403).json({
             error: 'Formato id incorrecto'
         });
-        if(error.code === 11000) return res.status(400).json({
-            error : "Ya está registrado el alumno"
-        });
+       
         return res.status(500).json({
             error: 'Error de servidor'
         });

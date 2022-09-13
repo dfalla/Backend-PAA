@@ -63,7 +63,7 @@ const actualizarEvento = async (req, res = response) => {
         if ( evento.user.toString() !== uid){
            return res.status(401).json({
                 ok: false,
-                msg: "No tiene privilegio para editar este evento"
+                msg: "No tiene privilegio para editar esta nota"
             })
         }
 
@@ -76,6 +76,7 @@ const actualizarEvento = async (req, res = response) => {
 
         res.json({
             ok: true,
+            msg:'Evento actualizado correctamente',
             evento: eventoActualizado
         })
         
@@ -107,7 +108,7 @@ const eliminarEvento = async (req, res = response) => {
         if ( evento.user.toString() !== uid){
             return res.status(401).json({
                  ok: false,
-                 msg: "No tiene privilegio para eliminar este evento"
+                 msg: "No tiene privilegio para eliminar esta nota"
              })
         }
 
@@ -116,7 +117,7 @@ const eliminarEvento = async (req, res = response) => {
 
         res.json({
             ok: true,
-            msg: "Elemento eliminado correctamente"
+            msg: "Nota eliminada correctamente"
         })
         
     } catch (error) {
@@ -126,10 +127,6 @@ const eliminarEvento = async (req, res = response) => {
             msg: "error del servidor, hable con el administrador"
         })
     }
-    res.json({
-        ok: true,
-        msg: "Eliminar Eventos"
-    })
 }
 
 module.exports = {

@@ -31,7 +31,6 @@ app.use('/api/auth', AUTH);
 //Ruta de eventos
 app.use('/api/events', EVENTS);
 
-
 //Ruta de alumnos
 app.use('/api/students', STUDENTS);
 //TODO: CRUD: eventos
@@ -39,8 +38,6 @@ app.use('/api/students', STUDENTS);
 app.use('*', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 })
-
-
 
 // Escuchar peticiones
 

@@ -1,5 +1,5 @@
 const {validarCampos, check} = require('../middlewares/validationResult');
-const { isDate } = require('../helpers/idDate'); 
+const { isDate } = require('../helpers/isDate'); 
 
 const validarEvento = [
     check('title', 'El titulo es obligatorio').not().isEmpty(),
