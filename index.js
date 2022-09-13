@@ -4,6 +4,7 @@ const express = require('express');
 const { dbConnection } = require('./database/config');
 const AUTH = require('./routes/auth');
 const EVENTS = require('./routes/events');
+const STUDENTS = require('./routes/students');
 dotenv.config();
 
 //Crear el servidor de express
@@ -29,6 +30,10 @@ app.use('/api/auth', AUTH);
 
 //Ruta de eventos
 app.use('/api/events', EVENTS);
+
+
+//Ruta de alumnos
+app.use('/api/students', STUDENTS);
 //TODO: CRUD: eventos
 
 app.use('*', (req, res) => {
