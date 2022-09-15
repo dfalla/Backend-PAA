@@ -37,14 +37,14 @@ const obtenerAlumno = async(req, res = response) => {
 
 const crearAlumno = async (req, res = response) => {
     try {
-        const {nombre, apellido, dni} = req.body;
+        const {nombre, apellido, dni, fecha_ingreso} = req.body;
         
         let alumno = await Alumno.findOne({dni});
         
 
         if(alumno) throw {code: 11000};
 
-        const nuevoAlumno = new Alumno({nombre, apellido, dni});
+        const nuevoAlumno = new Alumno({nombre, apellido, dni, fecha_ingreso});
 
         await nuevoAlumno.save();
 
@@ -64,7 +64,7 @@ const crearAlumno = async (req, res = response) => {
 const actualizarAlumno = async(req, res = response) => {
     try {
         const {id} = req.params;
-        const {nombre, apellido, dni} = req.body;
+        const {nombre, apellido, dni, fecha_ingreso} = req.body;
 
         const alumno = await Alumno.findById(id);
         
@@ -78,6 +78,7 @@ const actualizarAlumno = async(req, res = response) => {
         alumno.nombre = nombre;
         alumno.apellido = apellido;
         alumno.dni = dni;
+        alumno.fecha_ingreso = fecha_ingreso;
         
 
         await alumno.save();
