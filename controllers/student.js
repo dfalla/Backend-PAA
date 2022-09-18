@@ -1,5 +1,12 @@
 const { response } = require('express');
+const { uploadImage, deleteImage } = require('../libs/cloudinary');
+const fs = require('fs-extra');
 const Alumno = require('../models/Alumno');
+
+
+
+
+
 
 const obtenerAlumnos = async(req, res = response) => {
     try {
@@ -24,6 +31,7 @@ const obtenerAlumno = async(req, res = response) => {
                 error: "No existe el alumno"
             });
         }
+
         return res.json({
             alumno
         })
@@ -37,15 +45,26 @@ const obtenerAlumno = async(req, res = response) => {
 
 const crearAlumno = async (req, res = response) => {
     try {
+
         const {nombre, apellido, dni, fecha_ingreso} = req.body;
+        let image;
+
+        if(req.files.imagen){
+           const result = await uploadImage(req.files.imagen.tempFilePath);
+           //eliminar de la carpeta upload los archivos una vez que se han subido a cloudinary
+           await fs.remove(req.files.imagen.tempFilePath);
+           image = {
+                url: result.secure_url,
+                public_id: result.public_id
+            }
+        }
         
         let alumno = await Alumno.findOne({dni});
         
-
         if(alumno) throw {code: 11000};
 
-        const nuevoAlumno = new Alumno({nombre, apellido, dni, fecha_ingreso});
-
+        const nuevoAlumno = new Alumno({nombre, apellido, dni, fecha_ingreso, image});
+        
         await nuevoAlumno.save();
 
         return res.status(201).json({msg:"Alumno registrado correctamente", nuevoAlumno});
@@ -65,6 +84,7 @@ const actualizarAlumno = async(req, res = response) => {
     try {
         const {id} = req.params;
         const {nombre, apellido, dni, fecha_ingreso} = req.body;
+        
 
         const alumno = await Alumno.findById(id);
         
@@ -107,7 +127,13 @@ const eliminarAlumno = async(req, res = response) =>{
                 error: "Alumno no registrado"
             });
         }
+
         await alumno.remove();
+        
+        if(alumno.image.public_id){
+            await deleteImage(alumno.image.public_id);
+        }
+
         return res.json({
             msg: "Alumno eliminado correctamente", 
             alumno
@@ -124,5 +150,5 @@ module.exports = {
     obtenerAlumno,
     crearAlumno,
     actualizarAlumno,
-    eliminarAlumno
+    eliminarAlumno,
 }

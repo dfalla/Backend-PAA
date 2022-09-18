@@ -1,6 +1,8 @@
 const dotenv = require('dotenv');
+// const path = require('path');
 const cors = require('cors');
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const { dbConnection } = require('./database/config');
 const AUTH = require('./routes/auth');
 const EVENTS = require('./routes/events');
@@ -10,6 +12,13 @@ dotenv.config();
 //Crear el servidor de express
 const app = express();
 
+//Carga de archivos
+app.use(fileUpload({
+    useTempFiles: true, // cuando se suba la imagen, que no lo mantenga en memoria, sino que lo guarde en una carpeta
+    tempFileDir: './upload',
+    // limits: { fileSize: 50 * 1024 * 1024 }
+}));
+
 //Base de datos
 dbConnection();
 
@@ -18,6 +27,8 @@ app.use( cors() );
 
 
 //Directorio Público
+// app.use(express.static(path.join(__dirname, 'app/upload')));
+
 app.use( express.static('public') );
 
 // Lectura y parseo del body
