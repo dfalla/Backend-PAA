@@ -51,6 +51,7 @@ const crearAlumno = async (req, res = response) => {
 
         if(req.files.imagen){
            const result = await uploadImage(req.files.imagen.tempFilePath);
+           console.log(result);
            //eliminar de la carpeta upload los archivos una vez que se han subido a cloudinary
            await fs.remove(req.files.imagen.tempFilePath);
            image = {
@@ -82,6 +83,7 @@ const crearAlumno = async (req, res = response) => {
 
 const actualizarAlumno = async(req, res = response) => {
     try {
+        
         const {id} = req.params;
         const {nombre, apellido, dni, fecha_ingreso} = req.body;
         

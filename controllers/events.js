@@ -29,6 +29,7 @@ const crearEvento = async(req, res = response) => {
 
         res.status(201).json({
             ok: true,
+            msg: "Nota creada satisfactoriamente",
             evento: eventoGuardado
         })
 

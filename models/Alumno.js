@@ -26,11 +26,7 @@ const AlumnoSchema = new Schema({
     image: {
         url: String,
         public_id: String
-    }
-    // image: {
-    //     data: Buffer,
-    //     contentType: String
-    // }
+    },
     // user: {
     //     // esto le va a decir a mongoose que va a ser una referencia
     //     type: mongoose.Schema.Types.ObjectId,
