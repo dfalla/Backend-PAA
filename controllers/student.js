@@ -3,11 +3,6 @@ const { uploadImage, deleteImage } = require('../libs/cloudinary');
 const fs = require('fs-extra');
 const Alumno = require('../models/Alumno');
 
-
-
-
-
-
 const obtenerAlumnos = async(req, res = response) => {
     try {
         const alumnos = await Alumno.find({uid: req.uid});
